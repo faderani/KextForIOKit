@@ -81,6 +81,20 @@ IOReturn com_osxkernel_driver_IOKitTest::setProperties(OSObject *properties) {
 
 OSDefineMetaClassAndStructors(com_osxkernel_driver_IOKitTestClient, super);
 
+
+
+const IOExternalMethodDispatch com_osxkernel_driver_IOKitTestClient::sMethods[kTestUserClientMethodCount] = {
+    {sStartTimer, 0 , 0 , 0 , 0},
+    {sStopTimer, 0 , 0 , 0 , 0},
+    {sGetElapsedTimerTime, 0 , 0 , 1 , 0},
+    {sGetElapsedTimerValue, 0 , 0 , 0 , sizeof(TimerValue)},
+    {sDelayForMs , 1 , 0 , 0 , 0},
+    {sDelayForTime, 0 , sizeof(TimerValue) , 0 , 0},
+    
+
+                                               
+};
+
 bool com_osxkernel_driver_IOKitTestClient::initWithTask(task_t owningTask, void *securityToken, UInt32 type, OSDictionary *properties) {
     
     if (!owningTask) {
@@ -119,6 +133,45 @@ bool com_osxkernel_driver_IOKitTestClient::start(IOService *provider) {
 IOReturn com_osxkernel_driver_IOKitTestClient::clientClose(void) {
     terminate();
     return kIOReturnSuccess;
+}
+
+IOReturn com_osxkernel_driver_IOKitTestClient::externalMethod(uint32_t selector, IOExternalMethodArguments *args, IOExternalMethodDispatch *dispatch, OSObject *target, void *reference) {
+    
+    if (selector >= kTestUserClientMethodCount) {
+        return kIOReturnUnsupported;
+    }
+    
+    dispatch = (IOExternalMethodDispatch*)&sMethods[selector];
+    target = this;
+    reference = NULL;
+    return super::externalMethod(selector, args, dispatch, target, reference);
+    
+
+    
+    
+    
+    
+}
+
+
+IOReturn com_osxkernel_driver_IOKitTestClient::sGetElapsedTimerTime(OSObject *target, void *reference, IOExternalMethodArguments *arguments) {
+    com_osxkernel_driver_IOKitTestClient *me;
+    uint32_t timerTime;
+    IOReturn result;
+    me = (com_osxkernel_driver_IOKitTestClient*)target;
+    
+    result = me->getElapsedTimerTime(&timerTime);
+    arguments->scalarOutput[0] = timerTime;
+    
+    return result;
+}
+
+
+IOReturn com_osxkernel_driver_IOKitTestClient::sDelayForTime(OSObject *target, void *reference, IOExternalMethodArguments *arguments) {
+    com_osxkernel_driver_IOKitTestClient *me;
+    me = (com_osxkernel_driver_IOKitTestClient*)target;
+    
+    return me->delayForTime((TimerValue*)arguments->structureInput);
 }
 
 

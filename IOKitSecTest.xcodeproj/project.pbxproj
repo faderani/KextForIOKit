@@ -12,6 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		340079321F28ED8A0046A3EF /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		34FE956F1F1D29CC001DD9E3 /* IOKitSecTest.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOKitSecTest.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE95721F1D29CC001DD9E3 /* IOKitSecTest.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IOKitSecTest.hpp; sourceTree = "<group>"; };
 		34FE95741F1D29CC001DD9E3 /* IOKitSecTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IOKitSecTest.cpp; sourceTree = "<group>"; };
@@ -51,6 +52,7 @@
 				34FE95721F1D29CC001DD9E3 /* IOKitSecTest.hpp */,
 				34FE95741F1D29CC001DD9E3 /* IOKitSecTest.cpp */,
 				34FE95761F1D29CC001DD9E3 /* Info.plist */,
+				340079321F28ED8A0046A3EF /* Common.h */,
 			);
 			path = IOKitSecTest;
 			sourceTree = "<group>";
