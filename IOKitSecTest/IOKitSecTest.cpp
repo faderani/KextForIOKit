@@ -76,3 +76,56 @@ IOReturn com_osxkernel_driver_IOKitTest::setProperties(OSObject *properties) {
     return kIOReturnUnsupported;
     
 }
+
+#define super IOUserClient
+
+OSDefineMetaClassAndStructors(com_osxkernel_driver_IOKitTestClient, super);
+
+bool com_osxkernel_driver_IOKitTestClient::initWithTask(task_t owningTask, void *securityToken, UInt32 type, OSDictionary *properties) {
+    
+    if (!owningTask) {
+        return false;
+    }
+    
+    if (!super::initWithTask(owningTask,securityToken,type,properties)) {
+        return false;
+    }
+    
+    m_task = owningTask;
+    IOReturn ret = clientHasPrivilege(securityToken, kIOClientPrivilegeAdministrator);
+    
+    if (ret ==kIOReturnSuccess) {
+        //
+    }
+    
+    return true;
+    
+}
+
+bool com_osxkernel_driver_IOKitTestClient::start(IOService *provider) {
+    
+    if (!super::start(provider)) {
+        return false;
+    }
+    m_driver = OSDynamicCast(com_osxkernel_driver_IOKitTest, provider);
+    if (!m_driver) {
+        return false;
+    }
+    
+    return true;
+}
+
+
+IOReturn com_osxkernel_driver_IOKitTestClient::clientClose(void) {
+    terminate();
+    return kIOReturnSuccess;
+}
+
+
+
+
+
+
+
+
+

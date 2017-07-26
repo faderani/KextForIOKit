@@ -280,6 +280,7 @@
 				34FE957B1F1D29CC001DD9E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
